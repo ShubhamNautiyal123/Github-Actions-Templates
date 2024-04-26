@@ -1,0 +1,30 @@
+name: Build Android APK
+
+on:
+  push:
+    branches:
+      - main  # Adjust the branch name if needed
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Unity
+        uses: game-ci/setup-unity@v2
+        with:
+          unity-version: 2021.3.x  # Adjust to your Unity version
+
+      - name: Build Android
+        run: |
+          unity -quit -batchmode -projectPath . -executeMethod BuildScript.BuildAndroid
+        working-directory: path/to/your/project
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Build-Android
+          path: path/to/your/project/Builds/Android
